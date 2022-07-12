@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  # php:
+  #   build: .
+  #   image: php
+  #   volumes:
+  #     - "./:/workspace"
+  #   working_dir: "/workspace"
+  #   container_name: php
+  #   tty: true
+  #   ports:
+  #     - 8765:8765
+
+  db:
+    build:
+      context: ./db/
+    image: cms:db
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: tdj62ut2014
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./db/:/docker-entrypoint-initdb.d
+      - dbVolume:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+volumes: 
+  dbVolume:
+    driver: local
