@@ -1,16 +1,19 @@
 version: "3"
 
 services:
-  # php:
-  #   build: .
-  #   image: php
-  #   volumes:
-  #     - "./:/workspace"
-  #   working_dir: "/workspace"
-  #   container_name: php
-  #   tty: true
-  #   ports:
-  #     - 8765:8765
+  php:
+    build:
+      context: cms
+    image: php
+    volumes:
+      - "./:/workspace"
+    working_dir: "/workspace"
+    container_name: php
+    tty: true
+    ports:
+      - 8765:8765
+    networks:
+      - private-network
 
   db:
     build:
@@ -18,15 +21,26 @@ services:
     image: cms:db
     container_name: db
     restart: always
+    platform: linux/x86_64
     environment:
-      MYSQL_ROOT_PASSWORD: tdj62ut2014
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root_password
+      # MYSQL_ROOT_HOST: "%"
       TZ: "Asia/Tokyo"
     volumes:
       - ./db/:/docker-entrypoint-initdb.d
       - dbVolume:/var/lib/mysql
     ports:
       - 3306:3306
+    networks:
+      - private-network
+
+networks:
+  private-network:
+    driver: bridge
 
 volumes: 
   dbVolume:
     driver: local
+

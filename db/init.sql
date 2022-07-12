@@ -1,3 +1,6 @@
+-- CREATE USER 'test_user' IDENTIFIED BY '';
+-- GRANT ALL PRIVILEGES ON *.* TO 'test_user'@'%' WITH GRANT OPTION;
+
 CREATE DATABASE `cake_cms` DEFAULT CHARACTER SET utf8mb4;
 USE cake_cms;
 
